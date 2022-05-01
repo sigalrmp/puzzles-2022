@@ -1,0 +1,15 @@
+Things to do:
+
+Generator idea:
+    - make a random board of numbers (of the given size)
+    - between every two cells indicate which is bigger
+    - recursively remove numbers and inequality indicators until it's not solvable, and then go back one step
+
+Solver (not humanoid) idea: (DONE)
+    - recursive backtracing
+        - for each space generate all possible numbers
+        - recursive try numbers in spaces until it's no longer a possible board, and then backtrack
+
+Solver (humanoid) planning:
+    - inferences
+        - same as sudoku? let's check

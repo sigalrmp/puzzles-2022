@@ -1,3 +1,3 @@
 # puzzles-2022
 
-This is the code for the first two games puzzles that I wrote. I haven't yet gone over my previous code and edited, so it's not especially pretty. I also learned about python doctests after I had written the sudoku code, so that's there for futoshiki, but print tests are used for sudoku.
+This is the code for the first two puzzles that I wrote. I haven't yet gone over my previous code and edited, so it's not especially pretty. I also learned about python doctests after I had written the sudoku code, so that's there for futoshiki, but print tests are used for sudoku.

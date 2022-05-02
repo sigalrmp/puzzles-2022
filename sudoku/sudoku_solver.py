@@ -15,17 +15,16 @@ def space_options_shuffled(board, row, col):
             space_opts += [i]
     return space_opts
 
-def solve(board):
-    if full(board):
-        return board
-    row = None
-    col = None
+def first_empty(board):
     for r in range(9):
         for c in range(9):
             if board[r][c] == 0:
-                row = r
-                col = c
-                break
+                return (r, c)
+
+def solve(board):
+    if full(board):
+        return board
+    (row, col) = first_empty(board)
     space_opts = space_options_shuffled(board, row, col)
     for i in space_opts:
         copy = copy_board(board)
@@ -34,35 +33,25 @@ def solve(board):
         if not solution is None:
             return solution
 
-# clean this up it's terrible
-
 def valid(board):
-    if full(board):
-        print('board is already finished')
-    else: return valid_h(board, 0) == 1
-
-def valid_h(board, sols):
-    if full(board):
-        return 1
-    if sols is False:
-        return sols
-    if sols > 1:
-        return False
-    row = None
-    col = None
-    for r in range(9):
-        for c in range(9):
-            if board[r][c] == 0:
-                row = r
-                col = c
-                break
-    space_opts = space_options_shuffled(board, row, col)
-    for i in space_opts:
-        copy = copy_board(board)
-        copy[row][col] = i
-        solution = valid_h(copy, 0)
-        if solution is False: return False
-        if not solution is None:
-            if solution > 1: return False
-            else: sols += solution
-    return sols
+    sols_count = [0]
+    too_many_sols = [False]
+    def rec(rboard):
+        sc = sols_count
+        ts = too_many_sols
+        if not ts[0]:
+            if full(rboard):
+                sc[0] += 1
+                if sc[0] > 1:
+                    ts[0] = True
+            else:
+                (r, c) = first_empty(rboard)
+                space_opts = space_options(rboard, r, c)
+                for n in space_opts:
+                    copy = copy_board(rboard)
+                    copy[r][c] = n
+                    solution = rec(copy)
+                    if not solution is None:
+                        return solution
+    rec(board)
+    return sols_count[0] == 1

@@ -64,6 +64,30 @@ easy_test_board = [[6, 7, 2,    0, 3, 0,    9, 4, 0],
                    [4, 0, 5,    0, 0, 0,    3, 0, 0],
                    [0, 0, 0,    3, 7, 4,    0, 0, 6]]
 
+invalid_test_board = [[0, 0, 0,    0, 0, 0,   2, 0, 3],
+                      [0, 0, 0,    2, 0, 3,   0, 0, 0],
+                      [2, 0, 3,    0, 0, 0,   0, 0, 0],
+                      
+                      [0, 0, 0,    0, 0, 0,   3, 0, 4],
+                      [0, 0, 0,    3, 0, 4,   0, 0, 0],
+                      [3, 0, 4,    0, 0, 0,   0, 0, 0],
+                      
+                      [0, 0, 0,    0, 0, 0,   4, 0, 5],
+                      [0, 0, 0,    4, 0, 5,   0, 0, 0],
+                      [4, 0, 5,    0, 0, 0,   0, 0, 0]]
+
+invalid_test_board_two = [[0, 0, 0,    0, 0, 0,   2, 0, 3],
+                          [0, 0, 0,    2, 0, 3,   0, 0, 0],
+                          [2, 0, 3,    0, 0, 0,   0, 0, 0],
+                          
+                          [0, 0, 0,    0, 0, 0,   2, 0, 3],
+                          [0, 0, 0,    2, 0, 3,   0, 0, 0],
+                          [2, 0, 3,    0, 0, 0,   0, 0, 0],
+
+                          [0, 0, 0,    0, 0, 0,   2, 0, 3],
+                          [0, 0, 0,    2, 0, 3,   0, 0, 0],
+                          [2, 0, 3,    0, 0, 0,   0, 0, 0]]
+
 notes = board_to_notes(another_test_board)
 n_copy = copy_notes(notes)
 easyness = (30, 2, 10)
@@ -141,7 +165,7 @@ def test_copy_board():
 # test_copy_board()
 # test_checks()
 # print(board_to_str(empty_board()))
-# print(valid(other_test_board))
+# print('testing valid. should be False: ' + str(valid(invalid_test_board)))
 # print(rand_places())
 # print(rand_fillers())
 # print(gen_board())

@@ -16,9 +16,9 @@ def rand_full_board(len):
     rand_nums = solve(empty)
     return changed_obj(rand_nums, fill_in_ineqs)
 
-def gen_board_h(board, depth, level, diff=None):
+def gen_board_h(board, depth, diff=None):
     l = board_len(board)
-    if level == depth:
+    if depth == 0:
         return board
     else:
         for i in shuffled_list_range(space_count(l)):
@@ -30,11 +30,11 @@ def gen_board_h(board, depth, level, diff=None):
                 # if not valid_check(board):
                     # print('valid (or valid_check) is not working')
                 # else:
-                return gen_board_h(new_board, depth, level + 1, diff)
+                return gen_board_h(new_board, depth - 1, diff)
     return board
 
 def gen_board_generic(len):
-    return gen_board_h(rand_full_board(len), 50, 0)
+    return gen_board_h(rand_full_board(len), 2 * len ** 2)
 
 def valid_check(board):
     sol_1 = solve(board)
@@ -45,4 +45,4 @@ def valid_check(board):
     return True
 
 def gen_board_graded(l, diff):
-    return gen_board_h(rand_full_board(l), space_count(l) - floor(l / 2), 0, diff)
+    return gen_board_h(rand_full_board(l), 2 * (space_count(l) - floor(l / 2)), diff)

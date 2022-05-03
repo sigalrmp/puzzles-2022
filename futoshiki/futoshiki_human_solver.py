@@ -66,6 +66,7 @@ def annotate(notes, space_pos, elim_opt):
     if elim_opt in options:
         if len(options) == 1:
             crash_data = { 'bug': 'removing last option of space',
+                           'called from:': 'annotate',
                            'space': space_pos,
                            'options before removal': options }
             raise Exception(dict_to_str(crash_data))
@@ -239,10 +240,12 @@ def look_ahead_h(notes, space, m):
         notes_copies += [copy_notes(notes)]
         elim_opts = list.copy(space_opts)
         elim_opts.remove(elim_opts[i])
-        # debugging_info = {'called from': 'look_ahead_h','bug': 'all opts removed', 'space': space, 'space_opts': space_opts, 'elim_opts': elim_opts}
+        crash_data = {'called from': 'look_ahead_h','bug': 'all opts removed', 'space': space, 'space_opts': space_opts, 'elim_opts': elim_opts}
+        if len(elim_opts) == len(space_opts):
+            raise Exception(dict_to_str(crash_data))
         annotate_list(notes_copies[i], space, elim_opts)
-        # if len(notes_options(notes_copies[i], space)) == 0:
-        #     raise Exception(dict_to_str(debugging_info))
+        if len(notes_options(notes_copies[i], space)) == 0:
+           raise Exception(dict_to_str(crash_data))
         infer(notes_copies[i], m)
     for s in notes:
         for n in gen_options(l):

@@ -10,7 +10,6 @@ class board_type(Enum):
     VER_INEQ = auto()
     NUM = auto
 
-
 class difficulty(Enum):
     EASY = (1, 0, 0)
     MEDIUM = (10, 2, 2)
@@ -191,3 +190,6 @@ def dict_to_str(dict):
 
 def shuffled_list_range(i):
     return changed_obj(list_range(i), shuffle)
+
+def str_equal_ignore_caps(s1, s2):
+    return s1.upper() == s2.upper()

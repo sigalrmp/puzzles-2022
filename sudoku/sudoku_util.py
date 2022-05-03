@@ -14,7 +14,7 @@ def copy_notes(notes):
     for s in notes:
         # print('s: ' + str(s))
         if not type(notes[s]) is list:
-            print('wtf. s: ' + str(s) + ', notes[s]: ' + str(notes[s]))
+            print('argh. s: ' + str(s) + ', notes[s]: ' + str(notes[s]))
         copy.update({s: list.copy(notes[s])}) 
     return copy
 

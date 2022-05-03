@@ -32,7 +32,7 @@ def notes_full(notes):
 def annotate(space_pos, elim_opt, notes):
     # print('notes: ' + str(notes) + ', space_pos: ' + str(space_pos))
     if not type(notes) is dict:
-        print('wtf. Notes (that is not a dict): ' + str(notes))
+        print('argh. Notes (that is not a dict): ' + str(notes))
     options = notes[space_pos]
     if elim_opt in options:
         options.remove(elim_opt)
@@ -70,11 +70,11 @@ def first_inference_section(notes, section_spaces): # section_spaces is a list o
             if notes[s_] == notes[s]:
                 tracker += [s_]
         if len(tracker) == len(notes[s]):
-            # print('replacing shit. s: ' + str(s))
+            # print('replacing stuff. s: ' + str(s))
             for s_ in section_spaces:
                 if not s_ in tracker:
                     annotate_list(s_, notes[s], notes)
-        # else: print('not replacing shit. s: ' + str(s) + ', tracker: ' + str(tracker) + ', options for s: ' + str(notes[s]))
+        # else: print('not replacing stuff. s: ' + str(s) + ', tracker: ' + str(tracker) + ', options for s: ' + str(notes[s]))
 
 def first_inference(notes): # untested!!
     for section in all_sections():
@@ -142,7 +142,7 @@ def look_ahead(notes, n, m, start_space): # n is the max number of possibilities
     space = None
     next_start_space = None
     if not type(start_space) is tuple:
-        print('wtf. start_space: ' + str(start_space))
+        print('argh. start_space: ' + str(start_space))
     for r in range(start_space[0], 9):
         for c in range(9):
             if not (r == start_space[0] and c <= start_space[1]):
@@ -162,27 +162,15 @@ def look_ahead(notes, n, m, start_space): # n is the max number of possibilities
 
 def solve_like_human_h(notes, inference_depth, look_ahead_max_options, look_ahead_depth, look_ahead_start_space):
     if inference_depth == 0:
-        print('inferences ran out')
+        # print('inferences ran out')
         return False
-    # else: print('inference_depth: ' + str(inference_depth))
-    # print('before anything:\n' + board_to_str(notes_to_board(notes)))
     remaining_inference_depth = infer(notes, inference_depth)
-    # if not type(remaining_inference_depth) is int:
-    #     print('what the actual fuck. the next inference depth is not an integer.')
-    # print('last inference depth: ' + str(inference_depth))
-    # print('next inference depth: ' + str(remaining_inference_depth))
-    if remaining_inference_depth is None:
-        print('fuck my life')
-    # print('after infer:\n' + board_to_str(notes_to_board(notes)) + '\n')
     if notes_full(notes):
-        print('board solved')
         return True
     else:
         if look_ahead_start_space is None: 
-            # print('not starting anywhere')
             return False
         next_start_space = look_ahead(notes, look_ahead_max_options, look_ahead_depth, look_ahead_start_space)
-        # print('after looking ahead:\n' + board_to_str(notes_to_board(notes)))
         return solve_like_human_h(notes, remaining_inference_depth, look_ahead_max_options, look_ahead_depth, next_start_space)
 
 def solve_like_human(notes, inference_depth, look_ahead_max_options, look_ahead_depth):

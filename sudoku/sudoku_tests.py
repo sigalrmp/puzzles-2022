@@ -176,7 +176,6 @@ def test_look_ahead():
     """
     >>> notes = board_to_notes(other_test_board)
     >>> solve_like_human(notes, 10, 2, 3)
-    board solved
     True
     >>> print(board_to_str(notes_to_board(notes)))
     7 8 1   9 2 6   3 4 5

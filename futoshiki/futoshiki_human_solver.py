@@ -270,7 +270,7 @@ def look_ahead(notes, n, m, start_index): # n is the max number of possibilities
 
 def solve_like_human_h(notes, inference_depth, look_ahead_max_options, look_ahead_depth, look_ahead_start_index, recs):
     if inference_depth == 0:
-        print('inferences ran out')
+        # print('inferences ran out')
         return False
     remaining_inference_depth = infer(notes, inference_depth)
     if notes_full(notes):

@@ -58,6 +58,9 @@ def notes_full(notes):
 def notes_options(notes, space_pos):
     return notes[space_pos][0]
 
+def notes_options_count(notes, space_pos):
+    return len(notes_options(notes, space_pos))
+
 def notes_rels(notes, space_pos):
     return notes[space_pos][1]
 
@@ -65,16 +68,21 @@ def annotate(notes, space_pos, elim_opt):
     options = notes_options(notes, space_pos)
     if elim_opt in options:
         if len(options) == 1:
-            crash_data = { 'bug': 'removing last option of space',
-                           'called from:': 'annotate',
-                           'space': space_pos,
-                           'options before removal': options }
-            raise Exception(dict_to_str(crash_data))
+            # crash_data = { 'bug': 'removing last option of space',
+            #                'called from:': 'annotate',
+            #                'space': space_pos,
+            #                'options before removal': options }
+            # raise Exception(dict_to_str(crash_data))
+            # print('weird annotation')
+            return False
         options.remove(elim_opt)
+    return True
 
-def annotate_list(notes, space_pos, elim_opts):
+def annotate_list(notes, space_pos, elim_opts): # FLAGGGGGG
     for n in elim_opts:
-        annotate(notes, space_pos, n)
+        v = annotate(notes, space_pos, n)
+        if not v: return False
+    return True
 
 def notes_len(notes):
     return int(len(notes) ** 0.5)
@@ -146,7 +154,8 @@ def first_and_second_inference(notes):
                 #                        'notes': '\n' + notes_to_str(notes) }
                 #     raise Exception(dict_to_str(crash_infos))
                 while lowest <= lowest_option(notes, lt_pos):
-                    annotate(notes, pos, lowest)
+                    v = annotate(notes, pos, lowest)
+                    if not v: return False
                     # if len(notes_options(notes, pos)) == 0:
                     #     crash_info = { 'bug': 'removed all options by removing lowest',
                     #                    'called from': 'first_and_second_inference',
@@ -158,7 +167,9 @@ def first_and_second_inference(notes):
                     lowest = lowest_option(notes, pos)
             for gt_pos in rels['<']:
                 while highest >= highest_option(notes, gt_pos):
-                    annotate(notes, pos, highest)
+                    v = annotate(notes, pos, highest)
+                    if v is False:
+                        return False
                     highest = highest_option(notes, pos)
 
 def third_inference_section(notes, section):
@@ -174,19 +185,20 @@ def third_inference_section(notes, section):
         if len(tracker) == len(s_opts):
             for s_ in section_list:
                 if not s_ in tracker:
-                    bug = True
-                    for n in notes_options(notes, s_):
-                        bug = bug and n in s_opts
-                    if bug:
-                        crash_data = { '\nbug': 'about to remove all opts from s_',
-                                       'called from': 'third_inference_section',
-                                       's_': s_,
-                                       'what is being removed': s_opts,
-                                       'tracker': tracker,
-                                       'notes_options(notes, s_) == s_opts': notes_options(notes, s_) == s_opts,
-                                       'notes': notes_to_str_nums(notes) }
-                        raise Exception(dict_to_str(crash_data))
-                    annotate_list(notes, s_, s_opts)
+                    # bug = True
+                    # for n in notes_options(notes, s_):
+                    #     bug = bug and n in s_opts
+                    # if bug:
+                    #     crash_data = { '\nbug': 'about to remove all opts from s_',
+                    #                    'called from': 'third_inference_section',
+                    #                    's_': s_,
+                    #                    'what is being removed': s_opts,
+                    #                    'tracker': tracker,
+                    #                    'notes_options(notes, s_) == s_opts': notes_options(notes, s_) == s_opts,
+                    #                    'notes': notes_to_str_nums(notes) }
+                    #     raise Exception(dict_to_str(crash_data))
+                    v = annotate_list(notes, s_, s_opts)
+                    if not v: return False
 
 def third_inference(notes):
     for section in all_sections(notes_len(notes)):
@@ -213,7 +225,9 @@ def fourth_inference_section(notes, section):
             for n_ in tracker:
                 elim_opts.remove(n_)
             for s in d[n]:
-                annotate_list(notes, s, elim_opts)
+                v = annotate_list(notes, s, elim_opts)
+                if not v: return False
+                    # print('invalid 1')
 
 def fourth_inference(notes):
     for section in all_sections(notes_len(notes)):
@@ -226,7 +240,9 @@ def infer(notes, depth):
     if depth == 0:
         return depth
     for f in inferences:
-        f(notes)
+        if f(notes) is False:
+            print('ending inferences early')
+            return 0
     if not (notes_full(notes) or notes_copy == notes):
         return infer(notes, depth - 1)
     else:
@@ -246,7 +262,7 @@ def look_ahead_h(notes, space, m):
         annotate_list(notes_copies[i], space, elim_opts)
         if len(notes_options(notes_copies[i], space)) == 0:
            raise Exception(dict_to_str(crash_data))
-        infer(notes_copies[i], m)
+        infer(notes_copies[i], m) # this is where you need to figure something out. If this is False, I think that means the board isn't solvable. In that case, what do you do?
     for s in notes:
         for n in gen_options(l):
             remove = n in notes[s]

@@ -204,6 +204,10 @@ def test_futoshiki_human_solver():
     >>> board_mini_notes = board_to_notes(board_mini)
     >>> board_mini_notes
     {(0, 0): ([1], {'<': (), '>': ()}), (0, 1): ([2], {'<': (), '>': ()}), (1, 0): ([2], {'<': (), '>': ()}), (1, 1): ([1, 2], {'<': (), '>': ()})}
+    >>> notes_options(board_mini_notes, (1, 1))
+    [1, 2]
+    >>> notes_options_count(board_mini_notes, (1, 1))
+    2
     >>> highest_option(board_mini_notes, (1, 1))
     2
     >>> lowest_option(board_mini_notes, (1, 1))
@@ -212,6 +216,7 @@ def test_futoshiki_human_solver():
     >>> n_copy == board_mini_notes
     True
     >>> annotate(n_copy, (1, 1), 2)
+    True
     >>> n_copy == board_mini_notes
     False
 
@@ -232,13 +237,13 @@ def test_futoshiki_human_solver():
     0 0 0 0
     0 0 0 0
     0 0 0 0
-    >>> infer(inf_tests_copy, 2)
+    >>> infer(inf_tests_copy, 3)
     0
     >>> print('after:')
     after:
     >>> print_inf_tests()
-    4 0 1 2
-    2 0 4 3
+    4 3 1 2
+    2 1 4 3
     3 4 2 1
     1 2 3 4
     >>> bu_notes = board_to_notes(board_unsolved)
@@ -259,8 +264,8 @@ def test_futoshiki_human_solver():
                 >    
     5 > 3 > 1 < 4 > 2
     >>> hard_notes = board_to_notes(board_hard_big)
-    >>> infer(hard_notes, 10)
-    3
+    >>> infer(hard_notes, 5)
+    0
     >>> print_notes_nums(hard_notes)
     3 0 0 2 7 0 0
     0 0 0 5 0 0 0
@@ -270,7 +275,7 @@ def test_futoshiki_human_solver():
     4 0 0 1 3 0 7
     6 0 0 3 0 0 4
     >>> hard_notes55 = board_to_notes(board_hard)
-    >>> diff = (30, 5, 30)
+    >>> diff = (5, 0, 0)
     >>> solve_like_human(hard_notes55, diff)
     False
     >>> print(grid_list_to_str(notes_to_num_board(hard_notes55)))

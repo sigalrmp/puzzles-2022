@@ -68,12 +68,6 @@ def annotate(notes, space_pos, elim_opt):
     options = notes_options(notes, space_pos)
     if elim_opt in options:
         if len(options) == 1:
-            # crash_data = { 'bug': 'removing last option of space',
-            #                'called from:': 'annotate',
-            #                'space': space_pos,
-            #                'options before removal': options }
-            # raise Exception(dict_to_str(crash_data))
-            # print('weird annotation')
             return False
         options.remove(elim_opt)
     return True
@@ -93,10 +87,6 @@ def highest_option(notes, space_pos):
 
 def lowest_option(notes, space_pos):
     opts = notes_options(notes, space_pos)
-    # if len(opts) == 0:
-    #     print('wft. opts for pos is of length 0. pos: ' + str(space_pos))
-    #     crash_info = { 'space_pos': space_pos }
-    #     raise Exception(notes_to_str(notes))
     return opts[0]
 
 def copy_rels(rels):
@@ -147,23 +137,9 @@ def first_and_second_inference(notes):
             lowest = lowest_option(notes, pos)
             highest = highest_option(notes, pos)
             for lt_pos in rels['>']:
-                # if len(notes_options(notes, lt_pos)) == 0:
-                #     crash_infos = { 'bug': 'the lesser space has no options',
-                #                        'called from': 'first_and_second_inference',
-                #                        'pos': pos, 'lesser_pos': lt_pos,
-                #                        'notes': '\n' + notes_to_str(notes) }
-                #     raise Exception(dict_to_str(crash_infos))
                 while lowest <= lowest_option(notes, lt_pos):
                     v = annotate(notes, pos, lowest)
                     if not v: return False
-                    # if len(notes_options(notes, pos)) == 0:
-                    #     crash_info = { 'bug': 'removed all options by removing lowest',
-                    #                    'called from': 'first_and_second_inference',
-                    #                    'option removed': lowest,
-                    #                    'condition of removal': str(lowest) + ' (lowest of pos) <= ' + 
-                    #                                            str(lowest_option(notes, lt_pos)) + ' (lowest of lesser pos)',
-                    #                    'pos': pos, 'lesser_pos': lt_pos }
-                    #     raise Exception(dict_to_str(crash_info))
                     lowest = lowest_option(notes, pos)
             for gt_pos in rels['<']:
                 while highest >= highest_option(notes, gt_pos):
@@ -185,18 +161,6 @@ def third_inference_section(notes, section):
         if len(tracker) == len(s_opts):
             for s_ in section_list:
                 if not s_ in tracker:
-                    # bug = True
-                    # for n in notes_options(notes, s_):
-                    #     bug = bug and n in s_opts
-                    # if bug:
-                    #     crash_data = { '\nbug': 'about to remove all opts from s_',
-                    #                    'called from': 'third_inference_section',
-                    #                    's_': s_,
-                    #                    'what is being removed': s_opts,
-                    #                    'tracker': tracker,
-                    #                    'notes_options(notes, s_) == s_opts': notes_options(notes, s_) == s_opts,
-                    #                    'notes': notes_to_str_nums(notes) }
-                    #     raise Exception(dict_to_str(crash_data))
                     v = annotate_list(notes, s_, s_opts)
                     if not v: return False
 
@@ -227,7 +191,6 @@ def fourth_inference_section(notes, section):
             for s in d[n]:
                 v = annotate_list(notes, s, elim_opts)
                 if not v: return False
-                    # print('invalid 1')
 
 def fourth_inference(notes):
     for section in all_sections(notes_len(notes)):
@@ -241,7 +204,6 @@ def infer(notes, depth):
         return depth
     for f in inferences:
         if f(notes) is False:
-            print('ending inferences early')
             return 0
     if not (notes_full(notes) or notes_copy == notes):
         return infer(notes, depth - 1)

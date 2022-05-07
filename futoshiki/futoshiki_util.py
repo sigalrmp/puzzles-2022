@@ -109,19 +109,12 @@ def fill_in_ineqs(board):
     board[board_type.VER_INEQ] = fill_in_ineqs_h(board, 1, 0)
 
 def tog_to_sep_index(i, l):
-    # print('l: ' + str(l))
-    # print('if ' + str(i) + ' < ' + str(l ** 2) + ', this should be num')
-    # print('if ' + str(i) + ' < ' + str(2 * (l ** 2) - l) + ', this should be hor')
-    # print('otherwise, this should be ver')
     if i < (l ** 2):
-        # print('in num board')
         return (board_type.NUM, floor(i / l), i % l)
     elif i < (2 * (l ** 2) - l):
         hor_i = i - l ** 2
-        # print('in hor ineq board')
         return (board_type.HOR_INEQ, floor(hor_i / (l - 1)), hor_i % (l - 1))
     else:
-        # print('in ver ineq board')
         ver_i = i - 2 * (l ** 2) + l
         return (board_type.VER_INEQ, floor(ver_i / l), ver_i % l)
 

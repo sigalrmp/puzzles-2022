@@ -5,13 +5,7 @@ def run():
     l = custom_length()
     diff = custom_difficulty()
     board = gen_board_graded(l=l, diff=diff)
-    print('\n' + board_to_str(board))
-    count = 0
-    for r in board[board_type.NUM]:
-        for n in r:
-            if not n == 0:
-                count += 1
-    print('count: ' + str(count))
+    print('\n' + board_to_str(board) + '\n')
 
 
 def custom_length():

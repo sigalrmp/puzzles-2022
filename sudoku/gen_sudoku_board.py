@@ -18,20 +18,21 @@ def run():
     else:
         print('please enter one of the options given.')
         run()
-    print(board_to_str(gen_board_level(diff)))
-    # print_board(diff, 3)
+    if diff is None: raise Exception('diff is None')
+    # print(board_to_str(gen_board_level(diff)))
+    print_board(diff, 5)
 
-# def print_board(diff, i):
-#     if not i == 0:
-#         board = gen_board_level(diff)
-#         count = 0
-#         for r in range(9):
-#             for c in range(9):
-#                 if not board[r][c] == 0:
-#                     count += 1
-#         print('\n' + board_to_str(board))
-#         print('count: ' + str(count))
-#         print_board(diff, i - 1)
+def print_board(diff, i):
+    if not i == 0:
+        board = gen_board_level(diff)
+        count = 0
+        for r in range(9):
+            for c in range(9):
+                if not board[r][c] == 0:
+                    count += 1
+        print('\n' + board_to_str(board))
+        print('count: ' + str(count))
+        print_board(diff, i - 1)
 
 def custom_inference_depth():
     print('what do you want the maximum inference depth to be?')

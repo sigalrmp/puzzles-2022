@@ -1,6 +1,6 @@
 # puzzles-2022
 
-This is the code for the first two puzzles that I have finished: Sudoku and futoshiki.
+This is the code for three puzzles: Sudoku, futoshiki and hashi.
 
 SUDOKU
 

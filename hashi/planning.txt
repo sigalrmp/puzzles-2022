@@ -1,0 +1,9 @@
+Normal Solver Strategy:
+Generator Strategy:
+Human Solver Strategies:
+    - play out each possibile configuration for each node, and carry out whatever is the same across all configurations
+Board data type:
+    - nodes
+        - 2d array
+    - bridges
+        - 
